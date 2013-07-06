@@ -37,9 +37,17 @@ end
 
 def find_author(initials, doc)
   authors = doc.at("arr[@name='author']").xpath("str").map { |e| e.text }
+
+  pattern = Regexp.new(initials.each_char.to_a.join(".*"), "i")
+
   name = authors.find { |author| initials == initials_for(author) }
+  unless name
+    name = authors.find { |author| author =~ pattern }
+  end
 
   [name, authors.index(name).succ] if name
+rescue
+  nil
 end
 
 get "/" do
@@ -50,12 +58,14 @@ get "/" do
 
   stream do |out|
     out << CSV.generate do |csv|
-      csv << ["DOI", "Author Position", "Author Name", "Initials"] + ROLES
+      csv << ["DOI", "Publication Date", "Author Position", "Author Name", "Initials"] + ROLES
     end
 
     (limit / page_size.to_f).ceil.times do |page|
       out << Thread.new do
         start = page * page_size
+
+        puts "Fetching page #{page}: #{start} to #{start + page_size}"
 
         CSV.generate do |csv|
           tries = 3
@@ -63,6 +73,7 @@ get "/" do
             response = Net::HTTP.get(URI("http://api.plos.org/search?api_key=#{API_KEY}&fl=id,author_notes,author,publication_date&q=*:*&start=#{start}&rows=#{page_size}&fq=article_type:%22research%20article%22%20AND%20doc_type:full"))
           rescue
             tries -= 1
+            sleep 5
             retry unless tries.zero?
           end
 
