@@ -17,7 +17,6 @@ This idea is also an exercise in searching the PLOS CC-BY content for machine-re
 3. Experience in R, Ruby, Javascript, PHP
 4. People who can help with asking good questions, data analysis and writing. People with skills in R or interested in learning R, or experience in Solr query syntax a bonus. 
 
-
 Background
 ----------
 
@@ -29,16 +28,20 @@ This project is part of the [hack4ac](http://hack4ac.com) event taking place in 
 Requirements
 ------------
 
+* Register for an API key for the PLOS Search API [here](http://api.plos.org/registration/).
 * Install RStudio, a powerful IDE for R via [this link](http://www.rstudio.com/ide/download/).
-* Install a number of required packages via the RStudio interface or the console 
-
-```R
-install.packages(c("knitr", "plyr", "rplos"))
-```
+* Install a number of required packages via the RStudio interface or the console: `install.packages(c("knitr", "plyr", "rplos"))`
+* Import this git repository. Use any git tool or the git support in R. 
+* Open the R project file `plos-author-contributions.Rproj` in this repository.
+* Open the file `index.Rmd`. This file is where we will do the bulk of our work.
 
 Subprojects
 -----------
 
 ### Improve documentation of PLOS Search API
 
-The current schema for the PLOS Solr search is [here](schema.xml). Make sure all fields are also documented in the [PLOS Search website](http://api.plos.org/solr/search-fields/). Also compare field list to [PLOS Search web interface](http://www.plosone.org/search/advanced), and add more search examples, including some advanced Solr queries.
+The current schema for the PLOS Solr search is [here](schema.xml). Make sure all fields are also documented in the [PLOS Search website](http://api.plos.org/solr/search-fields/). Also compare field list to [PLOS Search web interface](http://www.plosone.org/search/advanced), and add more search examples, including some advanced Solr queries. This can also include a wish list of features you would like to see supported in the PLOS Search API. Write down docuentation in file `documentation.md` in this repo.
+
+### Extract author contributions out of PLOS papers
+
+We will do this using R and the `rplos` package. We use `knitr` to document our code in markdown, and do this in the `index.Rmd` file in this repo. RStudio understands `R Markdown` files: R code embedded into markdown, using the file extension `.Rmd`. 

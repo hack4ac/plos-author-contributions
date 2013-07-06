@@ -1,0 +1,9 @@
+PLOS Author Contributions
+=========================
+
+
+    
+```{r}
+library(rplos)
+result <- searchplos(terms = "*:*", fields = "id,author_notes", toquery='doc_type:full', limit=10000, key=[your key])
+```
