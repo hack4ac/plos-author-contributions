@@ -7,6 +7,7 @@ Get the data from the PLOS API:
 # Load required packages
 library(rplos)
 library(stringr)
+library(ggplot2)
 
 # Return DOI and author_notes for all PLOS research articles
 result <- searchplos(terms = "*:*", fields = "id,author_notes",
@@ -58,28 +59,60 @@ For example, the convention for PLOS Genetics seems to be
 
 ```{r}
 main.roles <- c(
-  'Conceived and designed the experiments',
+  'Conceived and designed the experiments',)
   'Performed the experiments',
   'Analyzed the data',
   'Contributed reagents/materials/analysis tools',
   'Wrote the paper')
+normalised.main.roles <- tolower(sub('^(\\w+).+$', '\\1', main.roles))
 
-ar.main <- subset(author.role.table,
-  tolower(gsub('\\s', '', role)) %in% tolower(gsub('\\s', '', main.roles)))
+ar.main <- transform(subset(author.role.table,
+  tolower(gsub('\\s', '', role)) %in% tolower(gsub('\\s', '', main.roles))),
+  normalised.role=tolower(sub('^(\\w+).+$', '\\1', role)))
 
 nrow(ar.main) / nrow(author.role.table)
+```
+
+```{r}
+ar.main.num.authors <- aggregate(author ~ id, ar.main, length)
+```
+
+```{r}
+ar.main.author.counts <- aggregate(author ~ id + normalised.role, ar.main, length)
+
+m <- ggplot(ar.main.author.counts, aes(x = author))
+m <- m + geom_histogram(binwidth = 1)
+m + facet_grid(normalised.role ~.)
+```
+
+```{r}
+ar.main.role.counts <- aggregate(normalised.role ~ id + author, ar.main, length)
+
+m <- ggplot(ar.main.role.counts, aes(x = normalised.role))
+m + geom_histogram(binwidth = 1)
+```
+
+```{r}
+authors.in.only.one.role <- subset(ar.main.role.counts, normalised.role == 1)
+authors.in.only.one.role <- merge(authors.in.only.one.role[,c('id','author')],
+                                  ar.main)
+
+#aggregate(authors.in.only.one.role)
+
+m <- ggplot(authors.in.only.one.role, aes(x = normalised.role))
+m + geom_bar()
 ```
 
 We can then build a smaller data frame with one row per author-paper pair and dummy variables for each of the main roles.
 
 ```{r}
-by(ar.main, ar.main$id, function(r) {
-  authors <- sort(unique(r$author))
-  as.list(subset(r, select=c(author,role)))
-  #pa.row <- data.frame(id=r$id[1], author=authors)
-  #for (main.role in main.roles) {
-  #}
-});
+# by(ar.main, ar.main$id, function(r) {
+#   authors <- sort(unique(r$author))
+#   as.list(subset(r, select=c(author,role)))
+#   #pa.row <- data.frame(id=r$id[1], author=authors)
+#   #for (main.role in main.roles) {
+#   #}
+# });
 ```
 
 #doi,author,conceived,performed,analyzed,contributed,wrote

@@ -1,0 +1,68 @@
+Author Roles and Author Positions
+========================================================
+
+```{r}
+library(ggplot2)
+
+pac <- read.csv('data/plos_author_contributions.csv', row.names=NULL)
+```
+
+You can also embed plots, for example:
+
+```{r}
+main.roles <- c(
+  'Conceived and designed the experiments',
+  'Performed the experiments',
+  'Analyzed the data',
+  'Contributed reagents/materials/analysis tools',
+  'Wrote the paper')
+normalised.main.roles <- tolower(sub('^(\\w+).+$', '\\1', main.roles))
+
+pac$num.contribs <- with(pac,
+  Conceived.and.designed.the.experiments + 
+  Performed.the.experiments +
+  Analyzed.the.data +
+  Contributed.reagents.materials.analysis.tools +
+  Wrote.the.paper)
+
+counts.conceived <- aggregate(
+  Conceived.and.designed.the.experiments ~ Author.Position, pac, sum)
+counts.conceived$role <- 'conceived'
+names(counts.conceived) <- c('position', 'count', 'role')
+
+counts.performed <- aggregate(
+  Performed.the.experiments ~ Author.Position, pac, sum)
+counts.performed$role <- 'performed'
+names(counts.performed) <- c('position', 'count', 'role')
+
+counts.analyzed <- aggregate(
+  Analyzed.the.data ~ Author.Position, pac, sum)
+counts.analyzed$role <- 'analyzed'
+names(counts.analyzed) <- c('position', 'count', 'role')
+
+counts.contributed <- aggregate(
+  Contributed.reagents.materials.analysis.tools ~ Author.Position, pac, sum)
+counts.contributed$role <- 'contributed'
+names(counts.contributed) <- c('position', 'count', 'role')
+
+counts.wrote <- aggregate(
+  Wrote.the.paper ~ Author.Position, pac, sum)
+counts.wrote$role <- 'wrote'
+names(counts.wrote) <- c('position', 'count', 'role')
+
+counts <- rbind(counts.conceived,
+                counts.performed,
+                counts.analyzed,
+                counts.contributed,
+                counts.wrote)
+
+for (role in normalised.main.roles) {
+  m <- counts$role == role
+  counts$rel.count[m] = counts$count[m] / sum(counts$count)
+}
+```
+
+```{r}
+ggplot(subset(counts, position <= 20), aes(x=position, y=role)) +
+  geom_point(aes(size=rel.count))
+```
