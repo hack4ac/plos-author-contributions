@@ -4,6 +4,21 @@ PLOS Author Contributions
 
     
 ```{r}
+# Load required packages
 library(rplos)
-result <- searchplos(terms = "*:*", fields = "id,author_notes", toquery='doc_type:full', limit=10000, key=[your key])
+library(stringr)
+
+# Return DOI and author_notes for all PLOS research articles
+result <- searchplos(terms = "*:*", fields = "id,author_notes", list('article_type:"research article"', 'doc_type:full'), limit=20, key=getOption('PlosApiKey'))
+
+# Trim leading and trailing whitespace
+result$author_notes <- str_trim(result$author_notes)
+
+# Extract individual contributions
+result$conceived_experiments <- str_extract(result$author_notes, "Conceived and designed the experiments: \\w+")
+result$wrote_paper <- str_extract(result$author_notes, "Wrote the paper: \\w+")
+
+# Save result
+report.csv <- ("data/author_contributions.csv")
+write.csv(result, report.csv, row.names=FALSE, fileEncoding="utf-8")
 ```

@@ -31,6 +31,7 @@ Requirements
 * Register for an API key for the PLOS Search API [here](http://api.plos.org/registration/).
 * Create a (free) [Github account](https://github.com) in case you haven't done so already.
 * Install RStudio, a powerful IDE for R via [this link](http://www.rstudio.com/ide/download/).
+* Add PLOS API key to your `.Rprofile` file in your home directory: `options(PlosApiKey = [your key])`. More info [here](http://ropensci.org/packages/api_keys.html).
 * Install a number of required packages via the RStudio interface or the console: `install.packages(c("knitr", "plyr", "rplos"))`
 * Import this git repository. Use any git tool or the git support in R. 
 * Open the R project file `plos-author-contributions.Rproj` in this repository.
