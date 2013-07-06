@@ -45,7 +45,13 @@ The current schema for the PLOS Solr search is [here](schema.xml). Make sure all
 
 ### Extract author contributions out of PLOS papers
 
-We will do this using R and the `rplos` package. We use `knitr` to document our code in markdown, and do this in the `index.Rmd` file in this repo. RStudio understands `R Markdown` files: R code embedded into markdown, using the file extension `.Rmd`. 
+We will do this using R and the `rplos` package. We use `knitr` to document our code in markdown, and do this in the `index.Rmd` file in this repo. RStudio understands `R Markdown` files: R code embedded into markdown, using the file extension `.Rmd`. Although the author contributions field contains structured information, there are some differences between PLOS journals. We also need to strip leading and trailing whitespace and reformat the content so that we have one row per author and one column for each of five author roles:
+
+* Conceived and designed the experiments
+* Performed the experiments
+* Analyzed the data
+* Contributed reagents/materials/analysis tools
+* Wrote the paper
 
 ### Analyze author contributions
 
@@ -57,3 +63,7 @@ Some ideas include the following:
 * Analyse Flesch readability score of abstracts and correlate with number of people who `wrote the paper` and geolocation.
 * Visualize authorship patterns.
 * Correlate authorship patterns with subject areas and/or geolocation information.
+
+### Write a report
+
+We want to summarize our findings in a report, and we can use the R markdown file we generated earlier for that. The report is one of the main intended outcomes of this project.
