@@ -1,0 +1,38 @@
+Build Relation between Author Initials and Roles
+========================================================
+
+Let's look at colons and periods.
+
+```{r}
+valid.roles <- c(
+  'Conceived and designed the experiments',
+  'Performed the experiments',
+  'Analyzed the data',
+  'Contributed reagents/materials/analysis tools',
+  'Wrote the paper')
+
+by(result, 1:nrow(result), function(r) {
+  author.notes <- sub('[.]$', '', r$author_notes)
+  chunks <- unlist(str_split(author.notes, '[.]\\s?'))
+  if (all(str_count(chunks, ':') == 1)) {
+    good.chunks <- str_split(chunks, ':\\s?')
+    roles <- chunks[seq(1,length(chunks),by=2)]
+    all.initials <- chunks[seq(2,length(chunks),by=2)]
+    initials <- str_split(all.initials, '\\s+')
+    if (length(initials) != length(roles)) {
+      print(chunks)
+      print(roles)
+      print(initials)
+    }
+    names(initials) <- roles
+    initials
+  } else {
+    NULL
+  }
+  #valid <- roles %in% valid.roles
+})
+
+```
+
+doi,author,conceived,performed,analyzed,contributed,wrote
+
