@@ -31,18 +31,34 @@
         <hr>
 
         <section id="main_content">
-          <h3>
-<a name="plos-author-contributions" class="anchor" href="#plos-author-contributions"><span class="octicon octicon-link"></span></a>PLOS Author Contributions</h3>
-
-<p>This was the result of a <a href="http://hack4ac.com/">Hack4ac</a> team working to mine article data from the <a href="http://api.plos.org/">PLOS Search API</a> and PeerJ for detailed author contributions.</p>
+          <p>This was the result of a <a href="http://hack4ac.com/">Hack4ac</a> team on 6th July 2013 working to mine and analyse article data from the <a href="http://api.plos.org/">PLOS Search API</a> and PeerJ for detailed author contributions.</p>
 
 <p>Several aspects were developed simultaneously:</p>
 
 <ul>
 <li>A <a href="https://peerj.com/">PeerJ</a> integration to pull author contribution information;</li>
 <li>A PLOS API bridge that queries the PLOS API, enriches it with author contribution information and converts it to CSV on the fly;</li>
-<li>An purely <a href="http://www.r-project.org/">R</a>-based implementation of mining PLOS and subsequent analysis. This project is described in more detailed <a href="plos_author_contributions.md">here</a>.</li>
+<li>A purely <a href="http://www.r-project.org/">R</a>-based implementation of mining PLOS for author contributions and a subsequent statistical analysis. This project is described in more detailed <a href="plos_author_contributions.md">here</a>.</li>
 </ul><h3>
+<a name="plos-api-bridge" class="anchor" href="#plos-api-bridge"><span class="octicon octicon-link"></span></a>PLOS API Bridge</h3>
+
+<p>The PLOS API bridge can be found under <code>plos-api</code> and is written in <a href="http://www.ruby-lang.org/">Ruby</a> with <a href="http://www.sinatrarb.com/">Sinatra</a>. To run it, ensure you set a <code>PLOS_API_KEY</code> environment variable like so:</p>
+
+<pre lang="shell"><code>$ export PLOS_API_KEY=decafbad
+</code></pre>
+
+<p>Then you can run the web application with <a href="http://code.macournoyer.com/thin/">Thin</a> (as it streams responses):</p>
+
+<pre lang="shell"><code>$ bundle install
+$ bundle exec thin start
+</code></pre>
+
+<h3>
+<a name="datasets" class="anchor" href="#datasets"><span class="octicon octicon-link"></span></a>Datasets</h3>
+
+<p>Prepared datasets can be found under the <code>data</code> directory and are all in CSV format.</p>
+
+<h3>
 <a name="team-members" class="anchor" href="#team-members"><span class="octicon octicon-link"></span></a>Team Members</h3>
 
 <p><img src="https://raw.github.com/hack4ac/plos-author-contributions/master/group_foto.jpg" alt="Group photo"></p>
