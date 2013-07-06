@@ -31,29 +31,67 @@
         <hr>
 
         <section id="main_content">
-          <h3>
-<a name="plos-author-contributions" class="anchor" href="#plos-author-contributions"><span class="octicon octicon-link"></span></a>PLOS Author Contributions</h3>
-
-<p>This was the result of a <a href="http://hack4ac.com/">Hack4ac</a> team working to mine article data from the <a href="http://api.plos.org/">PLOS Search API</a> and PeerJ for detailed author contributions.</p>
+          <p>This was the result of a <a href="http://hack4ac.com/">Hack4ac</a> team on 6th July 2013 working to mine and analyse article data from the <a href="http://api.plos.org/">PLOS Search API</a> and <a href="https://peerj.com/">PeerJ</a> for detailed author contributions.</p>
 
 <p>Several aspects were developed simultaneously:</p>
 
 <ul>
-<li>A <a href="https://peerj.com/">PeerJ</a> integration to pull author contribution information;</li>
+<li>A PeerJ integration to pull author contribution information;</li>
 <li>A PLOS API bridge that queries the PLOS API, enriches it with author contribution information and converts it to CSV on the fly;</li>
-<li>An purely <a href="http://www.r-project.org/">R</a>-based implementation of mining PLOS and subsequent analysis. This project is described in more detailed <a href="plos_author_contributions.md">here</a>.</li>
+<li>A purely <a href="http://www.r-project.org/">R</a>-based implementation of mining PLOS for author contributions and a subsequent statistical analysis. This project is described in more detailed <a href="plos_author_contributions.html">here</a> and <a href="parse_plos_author_notes.html">here</a>.</li>
 </ul><h3>
+<a name="plos-api-bridge" class="anchor" href="#plos-api-bridge"><span class="octicon octicon-link"></span></a>PLOS API Bridge</h3>
+
+<p>The PLOS API bridge can be found under <code>plos-api</code> and is written in <a href="http://www.ruby-lang.org/">Ruby</a> with <a href="http://www.sinatrarb.com/">Sinatra</a>. To run it, ensure you set a <code>PLOS_API_KEY</code> environment variable like so:</p>
+
+<pre lang="shell"><code>$ export PLOS_API_KEY=decafbad
+</code></pre>
+
+<p>Then you can run the web application with <a href="http://code.macournoyer.com/thin/">Thin</a> (as it streams responses):</p>
+
+<pre lang="shell"><code>$ bundle install
+$ bundle exec thin start
+</code></pre>
+
+<p>Then to return CSV from PLOS, simply hit the root of the application:</p>
+
+<pre><code>GET /
+DOI,Publication Date,Author Position,Author Name,Initials,Conceived and designed the experiments,Performed the experiments,Analyzed the data,Contributed reagents/materials/analysis tools,Wrote the paper
+10.1371/journal.pone.0020946,2011-06-14T00:00:00Z,1,Olga Pantos,OP,1,1,1,1,1
+10.1371/journal.pone.0020946,2011-06-14T00:00:00Z,2,Ove Hoegh-Guldberg,OH-G,0,0,0,1,0
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,1,Xiaowen Liu,XWL,1,1,1,0,1
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,2,Hong Cai,HC,1,0,0,1,0
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,5,Yingqiang Shi,YQS,1,0,0,1,0
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,6,Yanong Wang,YNW,1,0,0,1,0
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,4,Ziwen Long,ZWL,0,0,1,0,0
+10.1371/journal.pone.0029670,2011-12-28T00:00:00Z,3,Hua Huang,HH,0,0,1,0,0
+</code></pre>
+
+<p>You can tweak the number of results returned by passing a <code>limit</code> parameter like so:</p>
+
+<pre><code>GET /?limit=1000
+</code></pre>
+
+<h3>
+<a name="datasets" class="anchor" href="#datasets"><span class="octicon octicon-link"></span></a>Datasets</h3>
+
+<p>Prepared datasets can be found under the <code>data</code> directory and are all in CSV format with descriptive headers.</p>
+
+<h3>
 <a name="team-members" class="anchor" href="#team-members"><span class="octicon octicon-link"></span></a>Team Members</h3>
 
 <p><img src="https://raw.github.com/hack4ac/plos-author-contributions/master/group_foto.jpg" alt="Group photo"></p>
 
+<p>(Clockwise from bottom left.)</p>
+
 <ul>
-<li><a href="https://github.com/cbudjan" class="user-mention">@cbudjan</a></li>
+<li><a href="https://github.com/waltherg" class="user-mention">@waltherg</a></li>
 <li><a href="https://github.com/hubgit" class="user-mention">@hubgit</a></li>
 <li><a href="https://github.com/jdleesmiller" class="user-mention">@jdleesmiller</a></li>
-<li><a href="https://github.com/mfenner" class="user-mention">@mfenner</a></li>
 <li><a href="https://github.com/mudge" class="user-mention">@mudge</a></li>
-<li><a href="https://github.com/waltherg" class="user-mention">@waltherg</a></li>
+<li><a href="https://github.com/cbudjan" class="user-mention">@cbudjan</a></li>
+<li>
+<a href="https://github.com/mfenner" class="user-mention">@mfenner</a> (not pictured)</li>
 </ul>
         </section>
 
