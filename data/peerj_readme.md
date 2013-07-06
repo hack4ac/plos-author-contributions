@@ -1,17 +1,14 @@
 # Columns
 
 * doi
+* author position in author list
 * author name
-* contribution code (see below)
-* affiliations
+* author initials (null)
+* contribution: conceived and designed the experiments
+* contribution: performed the experiments
+* contribution: analyzed the data
+* contribution: contributed reagents/materials/analysis tools
+* contribution: wrote the paper
+* countries (semicolon-separated)
+* affiliations (semicolon-separated)
 * original contribution text
-
-# Contribution Types
-
-    $contributionTypes = array(
-        'conceived and designed the experiments' => 1,
-        'performed the experiments' => 2,
-        'analyzed the data' => 4,
-        'contributed reagents/materials/analysis tools' => 8,
-        'wrote the paper' => 16,
-    );
