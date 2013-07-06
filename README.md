@@ -29,6 +29,7 @@ Requirements
 ------------
 
 * Register for an API key for the PLOS Search API [here](http://api.plos.org/registration/).
+* Create a (free) [Github account](https://github.com) in case you haven't done so already.
 * Install RStudio, a powerful IDE for R via [this link](http://www.rstudio.com/ide/download/).
 * Install a number of required packages via the RStudio interface or the console: `install.packages(c("knitr", "plyr", "rplos"))`
 * Import this git repository. Use any git tool or the git support in R. 
@@ -45,3 +46,14 @@ The current schema for the PLOS Solr search is [here](schema.xml). Make sure all
 ### Extract author contributions out of PLOS papers
 
 We will do this using R and the `rplos` package. We use `knitr` to document our code in markdown, and do this in the `index.Rmd` file in this repo. RStudio understands `R Markdown` files: R code embedded into markdown, using the file extension `.Rmd`. 
+
+### Analyze author contributions
+
+Some ideas include the following:
+
+* Add [ScoRo](http://www.essepuntato.it/lode/http://purl.org/spar/scoro) Scholarly Contributions and Roles, e.g. `provides tools, equipment or facilities` or `authorship contribution`.
+* Find particular authorship patterns, e.g. number of papers where at least one author only `contributed reagents/materials/analysis tools`.
+* Correlate authorship for `performed the experiments` with `analyzed the data`.
+* Analyse Flesch readability score of abstracts and correlate with number of people who `wrote the paper` and geolocation.
+* Visualize authorship patterns.
+* Correlate authorship patterns with subject areas and/or geolocation information.
